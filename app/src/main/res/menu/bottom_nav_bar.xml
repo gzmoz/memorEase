@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="Home"
+        android:id="@+id/home_icon"
+        android:icon="@drawable/baseline_home"/>
+    <item android:title="Leaderboard"
+        android:id="@+id/leaderboard_icon"
+        android:icon="@drawable/baseline_leaderboard"/>
+    <item android:title="Quiz"
+        android:id="@+id/quiz_icon"
+        android:icon="@drawable/baseline_quiz"/>
+    <item android:title="Report"
+        android:id="@+id/report_icon"
+        android:icon="@drawable/baseline_report"/>
+</menu>

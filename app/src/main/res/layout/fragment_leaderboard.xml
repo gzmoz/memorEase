@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    tools:context=".LeaderboardFragment">
+
+    <!-- Üst Kısım: Liderlik Tablosu -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/top_section"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!-- 2. Sıradaki Kullanıcı -->
+        <ImageView
+            android:id="@+id/profile_picture_2"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="72dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/sample_avatar"
+            app:layout_constraintEnd_toStartOf="@id/profile_picture_1"
+            app:layout_constraintHorizontal_bias="0.575"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/username_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Daniel Harper"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@id/profile_picture_2"
+            app:layout_constraintStart_toStartOf="@id/profile_picture_2"
+            app:layout_constraintTop_toBottomOf="@id/profile_picture_2" />
+
+
+
+        <TextView
+            android:id="@+id/score_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="556,987"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="@id/profile_picture_2"
+            app:layout_constraintStart_toStartOf="@id/profile_picture_2"
+            app:layout_constraintTop_toBottomOf="@id/username_2" />
+
+        <!-- 1. Sıradaki Kullanıcı -->
+        <ImageView
+            android:id="@+id/profile_picture_1"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="16dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/sample_avatar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/username_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Olivia Carter"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/profile_picture_1" />
+
+        <TextView
+            android:id="@+id/score_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="641,302"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/username_1" />
+
+        <!-- 3. Sıradaki Kullanıcı -->
+        <ImageView
+            android:id="@+id/profile_picture_3"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="92dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/sample_avatar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.39"
+            app:layout_constraintStart_toEndOf="@id/profile_picture_1"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/username_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Lily Anderson"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@id/profile_picture_3"
+            app:layout_constraintStart_toStartOf="@id/profile_picture_3"
+            app:layout_constraintTop_toBottomOf="@id/profile_picture_3" />
+
+        <TextView
+            android:id="@+id/score_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="413,480"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="@id/profile_picture_3"
+            app:layout_constraintStart_toStartOf="@id/profile_picture_3"
+            app:layout_constraintTop_toBottomOf="@id/username_3" />
+
+        <!-- Liderlik Grafiği -->
+
+        <!-- 🔹 Ekstra Profil (Leaderboard Altında) -->
+        <ImageView
+            android:id="@+id/leaderboard_chart"
+            android:layout_width="375dp"
+            android:layout_height="183dp"
+            android:layout_marginTop="12dp"
+            android:src="@drawable/leaderboard"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/score_1" />
+
+        <LinearLayout
+            android:id="@+id/extra_profile_section"
+            android:layout_width="296dp"
+            android:layout_height="106dp"
+            android:layout_marginTop="28dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.495"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/leaderboard_chart">
+
+            <!-- Kullanıcı Profil Fotoğrafı -->
+            <ImageView
+                android:id="@+id/extra_profile_picture"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginEnd="12dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/sample_avatar" />
+
+            <!-- Kullanıcı Bilgileri -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- Skor Bilgisi -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:id="@+id/score_icon"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/score"
+                        android:layout_marginEnd="6dp"/>
+
+                    <TextView
+                        android:id="@+id/extra_score"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="234,633"
+                        android:textSize="18sp"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+
+                <!-- Sıralama Bilgisi -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="15dp">
+
+                    <ImageView
+                        android:id="@+id/rank_icon"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/ranking"
+                        android:layout_marginEnd="6dp"/>
+
+                    <TextView
+                        android:id="@+id/extra_rank"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="#111"
+                        android:textSize="16sp"
+                        android:textColor="@android:color/holo_red_dark"/>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
