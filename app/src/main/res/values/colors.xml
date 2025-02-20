@@ -4,5 +4,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="lightBlue">#78B8DC</color>
     <color name="darkBlue">#032F55</color>
+    <color name="buttonTransparentBlue">#BFDCEC</color>
 
 </resources>
