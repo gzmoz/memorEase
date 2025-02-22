@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "45922728558",
+    "project_id": "memorease-f6d60",
+    "storage_bucket": "memorease-f6d60.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:45922728558:android:8f06aed878e286d7e6447f",
+        "android_client_info": {
+          "package_name": "com.example.memorease"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA5ig8-wzJvZajAY5Z6wDOwVhdXE4F79L8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    id("com.google.gms.google-services")
+    id("kotlin-android")
 }
 
 android {
@@ -56,6 +58,19 @@ dependencies {
     implementation("androidx.recyclerview:recyclerview:1.2.1")
     implementation("com.github.bumptech.glide:glide:4.12.0")
     implementation ("androidx.constraintlayout:constraintlayout:2.1.4")
+
+    implementation(platform("com.google.firebase:firebase-bom:33.9.0"))
+    implementation("com.google.firebase:firebase-analytics")
+
+    // All:
+    implementation ("com.cloudinary:cloudinary-android:3.0.2")
+
+// Download + Preprocess:
+    implementation ("com.cloudinary:cloudinary-android-download:3.0.2")
+    implementation ("com.cloudinary:cloudinary-android-preprocess:3.0.2")
+
+    implementation("com.github.bumptech.glide:glide:4.15.1")
+
 
 
 }
