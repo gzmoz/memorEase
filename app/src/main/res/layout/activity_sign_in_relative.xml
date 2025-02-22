@@ -9,14 +9,6 @@
     tools:context=".SignInRelativeActivity">
 
     <!-- Üst Mavi Çizgi -->
-    <View
-        android:id="@+id/topBar"
-        android:layout_width="0dp"
-        android:layout_height="40dp"
-        android:background="@color/lightBlue"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
 
     <!-- Başlık: Sign-In as a Relative -->
 
@@ -33,186 +25,84 @@
 
     <!-- Alt Mavi Çizgi -->
 
+    <View
+        android:id="@+id/topBar"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="104dp"
+        android:background="@color/lightBlue"
+        app:layout_constraintBottom_toTopOf="@+id/signInTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/signInTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="104dp"
+        android:layout_marginEnd="34dp"
+        android:layout_marginBottom="36dp"
         android:text="Sign-In as a Relative"
         android:textColor="@color/black"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/topBar" />
+        app:layout_constraintBottom_toTopOf="@+id/emailInput"
+        app:layout_constraintEnd_toEndOf="@+id/emailInput"
+        app:layout_constraintTop_toBottomOf="@+id/topBar" />
 
     <EditText
         android:id="@+id/emailInput"
         android:layout_width="0dp"
         android:layout_height="50dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="36dp"
-        android:layout_marginRight="50dp"
+        android:layout_marginStart="49dp"
+        android:layout_marginEnd="49dp"
+        android:layout_marginBottom="32dp"
         android:background="@drawable/edit_text_background"
         android:hint="E-Mail"
         android:inputType="textEmailAddress"
         android:padding="10dp"
         android:textColor="@color/black"
         android:textColorHint="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/uuidInfoText"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/signInTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/signInTitle" />
 
     <TextView
         android:id="@+id/uuidInfoText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginBottom="20dp"
         android:text="Please enter the UUID code\nshared by the user"
         android:textColor="@color/black"
         android:textSize="16sp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/uuidDisplay"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/emailInput" />
+        app:layout_constraintTop_toBottomOf="@+id/emailInput" />
 
-    <LinearLayout
-        android:id="@+id/uuidInputContainer"
-        android:layout_width="match_parent"
+    <EditText
+        android:id="@+id/uuidDisplay"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginBottom="63dp"
+        android:background="@drawable/uuid_input_background"
         android:gravity="center"
-        android:orientation="horizontal"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:padding="10dp"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/signInButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/uuidInfoText">
-
-        <!-- Her bir UUID parçası için giriş alanı -->
-        <EditText
-            android:id="@+id/uuidPart1"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_margin="4dp"
-            android:layout_weight="2"
-            android:background="@drawable/uuid_input_background"
-            android:gravity="center"
-            android:hint="XXXXXXXXXX"
-            android:inputType="text"
-            android:maxLength="10"
-            android:padding="8dp"
-            android:textColor="@color/black"
-            android:textColorHint="@color/black" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:text="-"
-            android:textColor="@color/black"
-            android:textSize="24sp" />
-
-        <EditText
-            android:id="@+id/uuidPart2"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_margin="4dp"
-            android:layout_weight="1"
-            android:background="@drawable/uuid_input_background"
-            android:gravity="center"
-            android:hint="XXXX"
-            android:inputType="text"
-            android:maxLength="4"
-            android:padding="8dp"
-            android:textColor="@color/black"
-            android:textColorHint="@color/black" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:text="-"
-            android:textColor="@color/black"
-            android:textSize="24sp" />
-
-        <EditText
-            android:id="@+id/uuidPart3"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_margin="4dp"
-            android:layout_weight="1"
-            android:background="@drawable/uuid_input_background"
-            android:gravity="center"
-            android:hint="XXXX"
-            android:inputType="text"
-            android:maxLength="4"
-            android:padding="8dp"
-            android:textColor="@color/black"
-            android:textColorHint="@color/black" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/uuidInputContainer">
-
-        <EditText
-            android:id="@+id/uuidPart4"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_margin="4dp"
-            android:layout_weight="1"
-            android:background="@drawable/uuid_input_background"
-            android:gravity="center"
-            android:hint="XXXX"
-            android:inputType="text"
-            android:maxLength="4"
-            android:padding="8dp"
-            android:textColor="@color/black"
-            android:textColorHint="@color/black" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:text="-"
-            android:textColor="@color/black"
-            android:textSize="24sp" />
-
-        <EditText
-            android:id="@+id/uuidPart5"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_margin="4dp"
-            android:layout_weight="2"
-            android:background="@drawable/uuid_input_background"
-            android:gravity="center"
-            android:hint="XXXXXXXXXXXXXXXX"
-            android:inputType="text"
-            android:maxLength="16"
-            android:padding="8dp"
-            android:textColor="@color/black"
-            android:textColorHint="@color/black" />
-
-    </LinearLayout>
+        app:layout_constraintTop_toBottomOf="@+id/uuidInfoText" />
 
     <Button
         android:id="@+id/signInButton"
         android:layout_width="150dp"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:backgroundTint="@color/darkBlue"
         android:text="Sign-In"
         android:textColor="@color/white"
@@ -221,29 +111,30 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        app:layout_constraintVertical_bias="0.589" />
+        app:layout_constraintTop_toBottomOf="@+id/uuidDisplay" />
 
     <ImageView
         android:id="@+id/groupIcon"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_marginBottom="20dp"
+        android:layout_width="132dp"
+        android:layout_height="137dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="0dp"
         android:contentDescription="Group Icon"
         android:scaleType="fitCenter"
         android:src="@drawable/relativeteblue"
-        app:layout_constraintBottom_toTopOf="@id/bottomBar"
+        app:layout_constraintBottom_toTopOf="@+id/bottomBar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.934"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/signInButton" />
 
     <View
         android:id="@+id/bottomBar"
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:background="@color/lightBlue"
+        android:layout_marginBottom="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/groupIcon" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

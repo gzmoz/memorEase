@@ -50,7 +50,7 @@ class SignUpUserActivity : AppCompatActivity() {
 
             // Zorunlu alanların doluluğunu kontrol et
             if (name.isEmpty() || surname.isEmpty() || email.isEmpty() || password.isEmpty()) {
-                Toast.makeText(this, "Lütfen tüm zorunlu alanları doldurun!", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Please fill in all required fields!", Toast.LENGTH_LONG).show()
                 return@setOnClickListener
             }
 
@@ -105,14 +105,14 @@ class SignUpUserActivity : AppCompatActivity() {
     private fun uploadImageToCloudinary(imageUri: Uri?) {
         imageUri?.let { uri ->
             CloudinaryService.uploadImage(uri, onSuccess = { imageUrl ->
-                Toast.makeText(this, "Fotoğraf başarıyla yüklendi!", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Photo uploaded successfully!", Toast.LENGTH_LONG).show()
                 val name = binding.nameInput.text.toString().trim()
                 val surname = binding.surnameInput.text.toString().trim()
                 val email = binding.emailInput.text.toString().trim()
                 val password = binding.passwordInput.text.toString().trim()
                 registerUserWithFirebaseAuth(name, surname, email, password, imageUrl)
             }, onError = { error ->
-                Toast.makeText(this, "Cloudinary Yükleme Hatası: $error", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Cloudinary Installation Error: $error", Toast.LENGTH_LONG).show()
             })
         }
     }
@@ -129,7 +129,7 @@ class SignUpUserActivity : AppCompatActivity() {
                 val userId = auth.currentUser?.uid ?: UUID.randomUUID().toString()
                 saveUserToFirestore(userId, name, surname, email, profileImageUrl)
             } else {
-                Toast.makeText(this, "Kayıt hatası: ${task.exception?.message}", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Registration error: ${task.exception?.message}", Toast.LENGTH_LONG).show()
             }
         }
     }
@@ -152,12 +152,12 @@ class SignUpUserActivity : AppCompatActivity() {
         firestore.collection("users").document(userId)
             .set(userProfile)
             .addOnSuccessListener {
-                Toast.makeText(this, "Kullanıcı başarıyla kaydedildi.", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "User registered successfully.", Toast.LENGTH_LONG).show()
                 val intent = Intent(this, ActionOrientedActivity::class.java)
                 startActivity(intent)
             }
             .addOnFailureListener { e ->
-                Toast.makeText(this, "Veritabanı hatası: ${e.message}", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Database error: ${e.message}", Toast.LENGTH_LONG).show()
             }
     }
 

@@ -97,7 +97,7 @@
         android:id="@+id/userIcon"
         android:layout_width="132dp"
         android:layout_height="137dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="0dp"
         android:contentDescription="User Icon"
         android:scaleType="fitCenter"
         android:src="@drawable/usertype"
