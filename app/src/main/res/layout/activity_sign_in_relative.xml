@@ -8,22 +8,6 @@
     android:background="@color/white"
     tools:context=".SignInRelativeActivity">
 
-    <!-- Üst Mavi Çizgi -->
-
-    <!-- Başlık: Sign-In as a Relative -->
-
-    <!-- E-Mail Giriş Alanı -->
-
-    <!-- UUID Açıklama Metni -->
-
-    <!-- UUID Giriş Alanları -->
-
-    <!-- Sign-In Butonu -->
-
-    <!-- Kullanıcı Grubu Silueti Görseli -->
-    <!-- UUID Giriş Alanları -->
-
-    <!-- Alt Mavi Çizgi -->
 
     <View
         android:id="@+id/topBar"
@@ -84,9 +68,11 @@
 
     <EditText
         android:id="@+id/uuidDisplay"
-        android:layout_width="300dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="63dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="48dp"
         android:background="@drawable/uuid_input_background"
         android:gravity="center"
         android:padding="10dp"
