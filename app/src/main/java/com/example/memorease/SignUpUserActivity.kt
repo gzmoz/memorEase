@@ -14,18 +14,23 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.cloudinary.android.MediaManager
 import com.example.memorease.databinding.ActivitySignUpUserBinding
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import java.util.UUID
 
 class SignUpUserActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySignUpUserBinding
     private var selectedImageUri: Uri? = null
+    private val auth: FirebaseAuth = FirebaseAuth.getInstance()
+    private val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySignUpUserBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Cloudinary yapılandırması
+        // Cloudinary Yapılandırması (Her Activity içinde)
         val config = mapOf(
             "cloud_name" to "dqkgrjl0b",
             "api_key" to "713947242619374",
@@ -33,16 +38,29 @@ class SignUpUserActivity : AppCompatActivity() {
         )
         MediaManager.init(this, config)
 
-        // Fotoğraf seçme butonu
         binding.imageView2.setOnClickListener {
             requestGalleryPermission()
         }
 
-        // Kayıt butonu
         binding.signUpButton.setOnClickListener {
-            selectedImageUri?.let { uri ->
-                uploadImageToCloudinary(uri)
-            } ?: Toast.makeText(this, "Lütfen bir fotoğraf seçin!", Toast.LENGTH_SHORT).show()
+            val name = binding.nameInput.text.toString().trim()
+            val surname = binding.surnameInput.text.toString().trim()
+            val email = binding.emailInput.text.toString().trim()
+            val password = binding.passwordInput.text.toString().trim()
+
+            // Zorunlu alanların doluluğunu kontrol et
+            if (name.isEmpty() || surname.isEmpty() || email.isEmpty() || password.isEmpty()) {
+                Toast.makeText(this, "Lütfen tüm zorunlu alanları doldurun!", Toast.LENGTH_LONG).show()
+                return@setOnClickListener
+            }
+
+            // Fotoğraf opsiyonel, boş bırakılabilir
+            if (selectedImageUri == null) {
+                val defaultImageUrl = "https://res.cloudinary.com/dqkgrjl0b/image/upload/v1680000000/memorease/default_avatar.png"
+                registerUserWithFirebaseAuth(name, surname, email, password, defaultImageUrl)
+            } else {
+                uploadImageToCloudinary(selectedImageUri)
+            }
         }
     }
 
@@ -59,11 +77,10 @@ class SignUpUserActivity : AppCompatActivity() {
             if (result.resultCode == Activity.RESULT_OK) {
                 selectedImageUri = result.data?.data
                 selectedImageUri?.let { uri ->
-                    // Glide ile yuvarlak şekilde görseli yükle
                     Glide.with(this)
                         .load(uri)
-                        .placeholder(R.drawable.addprofilephoto) // Varsayılan resim
-                        .transform(CircleCrop()) // Yuvarlak yapmak için CircleCrop kullan
+                        .placeholder(R.drawable.addprofilephoto)
+                        .transform(CircleCrop())
                         .into(binding.imageView2)
                 }
             }
@@ -85,14 +102,63 @@ class SignUpUserActivity : AppCompatActivity() {
         selectImageLauncher.launch(intent)
     }
 
-    private fun uploadImageToCloudinary(imageUri: Uri) {
-        CloudinaryService.uploadImage(imageUri, onSuccess = { imageUrl ->
-            Toast.makeText(this, "Fotoğraf yüklendi: $imageUrl", Toast.LENGTH_LONG).show()
-            val intent = Intent(this, ActionOrientedActivity::class.java)
-            startActivity(intent)
-        }, onError = { error ->
-            Toast.makeText(this, "Yükleme hatası: $error", Toast.LENGTH_LONG).show()
-        })
+    private fun uploadImageToCloudinary(imageUri: Uri?) {
+        imageUri?.let { uri ->
+            CloudinaryService.uploadImage(uri, onSuccess = { imageUrl ->
+                Toast.makeText(this, "Fotoğraf başarıyla yüklendi!", Toast.LENGTH_LONG).show()
+                val name = binding.nameInput.text.toString().trim()
+                val surname = binding.surnameInput.text.toString().trim()
+                val email = binding.emailInput.text.toString().trim()
+                val password = binding.passwordInput.text.toString().trim()
+                registerUserWithFirebaseAuth(name, surname, email, password, imageUrl)
+            }, onError = { error ->
+                Toast.makeText(this, "Cloudinary Yükleme Hatası: $error", Toast.LENGTH_LONG).show()
+            })
+        }
+    }
+
+    private fun registerUserWithFirebaseAuth(
+        name: String,
+        surname: String,
+        email: String,
+        password: String,
+        profileImageUrl: String
+    ) {
+        auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val userId = auth.currentUser?.uid ?: UUID.randomUUID().toString()
+                saveUserToFirestore(userId, name, surname, email, profileImageUrl)
+            } else {
+                Toast.makeText(this, "Kayıt hatası: ${task.exception?.message}", Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
+    private fun saveUserToFirestore(
+        userId: String,
+        name: String,
+        surname: String,
+        email: String,
+        profileImageUrl: String
+    ) {
+        val userProfile = UserProfile(
+            name = name,
+            surname = surname,
+            email = email,
+            profileImageUrl = profileImageUrl,
+            uuid = userId
+        )
+
+        firestore.collection("users").document(userId)
+            .set(userProfile)
+            .addOnSuccessListener {
+                Toast.makeText(this, "Kullanıcı başarıyla kaydedildi.", Toast.LENGTH_LONG).show()
+                val intent = Intent(this, ActionOrientedActivity::class.java)
+                startActivity(intent)
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(this, "Veritabanı hatası: ${e.message}", Toast.LENGTH_LONG).show()
+            }
     }
 
     companion object {

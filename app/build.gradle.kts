@@ -61,6 +61,10 @@ dependencies {
 
     implementation(platform("com.google.firebase:firebase-bom:33.9.0"))
     implementation("com.google.firebase:firebase-analytics")
+    // Firebase Authentication
+    implementation("com.google.firebase:firebase-auth-ktx:22.1.1")
+    // Firebase Firestore
+    implementation("com.google.firebase:firebase-firestore-ktx:24.11.0")
 
     // All:
     implementation ("com.cloudinary:cloudinary-android:3.0.2")
