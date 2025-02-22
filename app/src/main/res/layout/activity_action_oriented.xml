@@ -8,87 +8,118 @@
     android:background="@color/white"
     tools:context=".ActionOrientedActivity">
 
+    <!-- Welcome Mesajı -->
+
+    <!-- Memory Mesajı -->
+
+    <!-- UUID Bilgilendirme Metni -->
+
+    <!-- UUID Display ve Copy Icon için LinearLayout -->
+
+    <!-- Ek Bilgilendirme Metni -->
+
+    <!-- Start Button -->
+
+    <!-- Yapboz Görseli -->
 
     <TextView
         android:id="@+id/welcomeMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Welcome Sophia !"
+        android:layout_marginTop="80dp"
+        android:text="Welcome!"
         android:textColor="@color/black"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/memoryMessage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.726" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/memoryMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="44dp"
+        android:layout_marginTop="16dp"
         android:text="Let's make memories memorable!"
         android:textColor="@color/black"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/uuidInfoText"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/welcomeMessage" />
 
     <TextView
         android:id="@+id/uuidInfoText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
         android:text="This is your UUID tag."
         android:textColor="@color/black"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/uuidDisplay"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/memoryMessage" />
 
-    <TextView
-        android:id="@+id/uuidDisplay"
+    <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:background="@drawable/uuid_input_background"
+        android:layout_marginTop="40dp"
         android:gravity="center"
-        android:padding="10dp"
-        android:text="DF553D94 - DF68 - 11EB\nBA80 - 0242AC130004"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/additionalInfoText"
+        android:orientation="horizontal"
+        android:padding="15dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.484"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/uuidInfoText">
+
+        <TextView
+            android:id="@+id/uuidDisplay"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/uuid_input_background"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="DF553D94-DF68-11EB-BA80-0242AC130004"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/copyIcon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="8dp"
+            android:contentDescription="Copy UUID"
+            android:src="@drawable/ic_copy" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/additionalInfoText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
+        android:layout_marginTop="40dp"
         android:text="Your acquaintances can use this tag\nto create a Relative account and\nupload memories."
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/startButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
     <Button
         android:id="@+id/startButton"
         android:layout_width="200dp"
         android:layout_height="50dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginTop="28dp"
         android:backgroundTint="@color/darkBlue"
         android:text="Let's Start !"
         android:textColor="@color/white"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/puzzleImage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/additionalInfoText" />
 
     <ImageView
         android:id="@+id/puzzleImage"
@@ -99,6 +130,8 @@
         android:src="@drawable/puzzzlebrain"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/startButton"
+        app:layout_constraintVertical_bias="0.934" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
