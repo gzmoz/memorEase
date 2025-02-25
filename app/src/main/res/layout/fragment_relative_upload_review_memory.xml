@@ -51,6 +51,7 @@
             tools:layout_editor_absoluteY="316dp">
 
             <ImageView
+                android:id="@+id/relativeUploadMemoryButton"
                 android:layout_width="130dp"
                 android:layout_height="130dp"
                 android:src="@drawable/uploadrelativememory" />

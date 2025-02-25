@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".UploadMemoryFragment">
 
     <!-- Üstteki Mavi Bar -->
@@ -59,7 +60,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="210dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="0dp"
         android:gravity="center"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -74,12 +75,14 @@
             android:layout_width="250dp"
             android:layout_height="50dp"
             android:layout_marginTop="10dp"
-            android:backgroundTint="@color/darkBlue"
+            android:backgroundTint="@color/green"
             android:drawableStart="@drawable/ic_text"
             android:text="Text"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/white"
+        />
 
         <!-- Image Memory Butonu -->
+
 
         <!-- Voice Memory Butonu -->
         <Button
@@ -87,7 +90,7 @@
             android:layout_width="250dp"
             android:layout_height="50dp"
             android:layout_marginTop="10dp"
-            android:backgroundTint="@color/darkBlue"
+            android:backgroundTint="@color/green"
             android:drawableStart="@drawable/ic_image"
             android:text="Image"
             android:textColor="@android:color/white" />
@@ -97,7 +100,7 @@
             android:layout_width="250dp"
             android:layout_height="50dp"
             android:layout_marginTop="10dp"
-            android:backgroundTint="@color/darkBlue"
+            android:backgroundTint="@color/green"
             android:drawableStart="@drawable/ic_voice"
             android:text="Voice"
             android:textColor="@android:color/white" />

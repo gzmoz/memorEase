@@ -3,7 +3,6 @@ package com.example.memorease
 import android.content.Context
 import android.net.Uri
 import android.util.Log
-import com.cloudinary.Cloudinary
 import com.cloudinary.android.MediaManager
 import com.cloudinary.android.callback.ErrorInfo
 import com.cloudinary.android.callback.UploadCallback
@@ -23,17 +22,23 @@ object CloudinaryService {
         return MediaManager.get()
     }
 
-    fun uploadImage(imageUri: Uri, onSuccess: (String) -> Unit, onError: (String) -> Unit) {
+    // "folderName" parametresi eklendi
+    fun uploadImage(
+        imageUri: Uri,
+        folderName: String,
+        onSuccess: (String) -> Unit,
+        onError: (String) -> Unit
+    ) {
         val requestId = MediaManager.get().upload(imageUri)
-            .option("folder", "memorease/profile_photos")
+            .option("folder", "memorease/$folderName") // Klasör dinamik olarak belirleniyor
             .callback(object : UploadCallback {
                 override fun onStart(requestId: String?) {
                     Log.d("Cloudinary", "Upload started")
                 }
 
                 override fun onProgress(requestId: String?, bytes: Long, totalBytes: Long) {
-                    val progress = (bytes / totalBytes).toDouble()
-                    Log.d("Cloudinary", "Upload progress: $progress")
+                    val progress = (bytes / totalBytes.toDouble()) * 100
+                    Log.d("Cloudinary", "Upload progress: $progress%")
                 }
 
                 override fun onSuccess(requestId: String?, resultData: Map<*, *>?) {

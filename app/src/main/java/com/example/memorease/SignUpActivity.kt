@@ -28,11 +28,13 @@ class SignUpActivity : AppCompatActivity() {
         binding.userButton.setOnClickListener(){
             val intent = Intent(this@SignUpActivity, SignUpUserActivity::class.java)
             startActivity(intent)
+            finish()
         }
 
         binding.relativeButton.setOnClickListener(){
             val intent = Intent(this@SignUpActivity, SignUpRelativeActivity::class.java)
             startActivity(intent)
+            finish()
         }
 
 

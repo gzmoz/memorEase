@@ -102,7 +102,7 @@ class SignUpUserActivity : AppCompatActivity() {
         selectImageLauncher.launch(intent)
     }
 
-    private fun uploadImageToCloudinary(imageUri: Uri?) {
+/*    private fun uploadImageToCloudinary(imageUri: Uri?) {
         imageUri?.let { uri ->
             CloudinaryService.uploadImage(uri, onSuccess = { imageUrl ->
                 Toast.makeText(this, "Photo uploaded successfully!", Toast.LENGTH_LONG).show()
@@ -115,7 +115,23 @@ class SignUpUserActivity : AppCompatActivity() {
                 Toast.makeText(this, "Cloudinary Installation Error: $error", Toast.LENGTH_LONG).show()
             })
         }
+    }*/
+
+    private fun uploadImageToCloudinary(imageUri: Uri?) {
+        imageUri?.let { uri ->
+            CloudinaryService.uploadImage(uri, "profile_photos", onSuccess = { imageUrl ->
+                Toast.makeText(this, "Photo uploaded successfully!", Toast.LENGTH_LONG).show()
+                val name = binding.nameInput.text.toString().trim()
+                val surname = binding.surnameInput.text.toString().trim()
+                val email = binding.emailInput.text.toString().trim()
+                val password = binding.passwordInput.text.toString().trim()
+                registerUserWithFirebaseAuth(name, surname, email, password, imageUrl)
+            }, onError = { error ->
+                Toast.makeText(this, "Cloudinary Installation Error: $error", Toast.LENGTH_LONG).show()
+            })
+        }
     }
+
 
     private fun registerUserWithFirebaseAuth(
         name: String,
@@ -155,6 +171,7 @@ class SignUpUserActivity : AppCompatActivity() {
                 Toast.makeText(this, "User registered successfully.", Toast.LENGTH_LONG).show()
                 val intent = Intent(this, ActionOrientedActivity::class.java)
                 startActivity(intent)
+                finish()
             }
             .addOnFailureListener { e ->
                 Toast.makeText(this, "Database error: ${e.message}", Toast.LENGTH_LONG).show()
