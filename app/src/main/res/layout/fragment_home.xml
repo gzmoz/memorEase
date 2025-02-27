@@ -42,7 +42,6 @@
             android:id="@+id/profile_image"
             android:layout_width="180dp"
             android:layout_height="180dp"
-            android:background="@drawable/circle_profile"
             android:padding="5dp"
             android:scaleType="centerCrop"
             android:src="@drawable/sample_avatar" />
@@ -53,7 +52,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:gravity="center"
-            android:text="Sophia Bennett"
             android:textColor="#000000"
             android:textSize="30sp"
             android:textStyle="bold" />
@@ -80,7 +78,7 @@
             android:backgroundTintMode="src_in"
             android:text="Upload Memories"
             android:textColor="#FFFFFF"
-            android:textSize="11dp"
+            android:textSize="10dp"
             app:cornerRadius="50dp"
             android:alpha="0.8"/>
 
@@ -146,7 +144,7 @@
             android:backgroundTintMode="src_in"
             android:text="Review Memories"
             android:textColor="#FFFFFF"
-            android:textSize="11dp"
+            android:textSize="10dp"
             app:cornerRadius="50dp"
             android:alpha="0.8"/>
     </LinearLayout>

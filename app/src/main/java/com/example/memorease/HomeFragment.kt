@@ -25,6 +25,7 @@ class HomeFragment : Fragment() {
     ): View? {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         fetchUserData()
+        setupButtonListeners() // Buton click olaylarını ayrı bir fonksiyona taşıdık
         return binding.root
     }
 
@@ -39,15 +40,13 @@ class HomeFragment : Fragment() {
                         val surname = document.getString("surname") ?: ""
                         val profileImageUrl = document.getString("profileImageUrl") ?: ""
 
-                        // Kullanıcı adını ve soyadını birleştir
                         binding.username.text = "$name $surname"
 
-                        // Glide ile profil resmini yükle
                         Glide.with(this)
                             .load(profileImageUrl)
-                            .placeholder(R.drawable.sample_avatar) // Yüklenirken gösterilecek resim
-                            .error(R.drawable.sample_avatar) // Hata durumunda gösterilecek resim
-                            .transform(CircleCrop()) // Yuvarlak yapmak için
+                            .placeholder(R.drawable.sample_avatar)
+                            .error(R.drawable.sample_avatar)
+                            .transform(CircleCrop())
                             .into(binding.profileImage)
                     } else {
                         Toast.makeText(requireContext(), "User data not found in Firestore.", Toast.LENGTH_LONG).show()
@@ -59,16 +58,25 @@ class HomeFragment : Fragment() {
         } else {
             Toast.makeText(requireContext(), "User not authenticated.", Toast.LENGTH_LONG).show()
         }
+    }
 
-
-        binding.buttonUpload.setOnClickListener(){
+    private fun setupButtonListeners() {
+        binding.buttonUpload.setOnClickListener {
             val uploadFragment = UploadMemoryFragment()
 
             parentFragmentManager.beginTransaction()
                 .replace(R.id.frame_layout, uploadFragment)
-                .addToBackStack(null) // Geri tuşuna basıldığında önceki fragmente dönmek için
+                .addToBackStack(null)
                 .commit()
+        }
 
+        binding.buttonReview.setOnClickListener {
+            val userReviewFragment = UserReviewMemoryFragment()
+
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.frame_layout, userReviewFragment)
+                .addToBackStack(null)
+                .commit()
         }
     }
 
