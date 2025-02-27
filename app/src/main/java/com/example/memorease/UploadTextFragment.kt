@@ -1,59 +1,116 @@
 package com.example.memorease
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.Fragment
+import com.example.memorease.databinding.FragmentUploadTextBinding
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import java.util.UUID
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [UploadTextFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class UploadTextFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private var _binding: FragmentUploadTextBinding? = null
+    private val binding get() = _binding!!
+
+    private val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
+    private var uploadedBy: String = "Unknown"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_upload_text, container, false)
+        _binding = FragmentUploadTextBinding.inflate(inflater, container, false)
+
+        // Kullanıcı Bilgilerini Yükle
+        fetchUploaderName()
+
+        binding.uploadButton.setOnClickListener {
+            val textContent = binding.commentBox.text.toString().trim()
+
+            if (textContent.isEmpty()) {
+                Toast.makeText(requireContext(), "Please enter a text for the memory.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            saveTextMemoryToFirestore(textContent)
+        }
+
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment UploadTextFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            UploadTextFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    /**
+     * Kullanıcı Bilgisini Firestore'dan Al
+     */
+    private fun fetchUploaderName() {
+        val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return
+
+        firestore.collection("users").document(userId).get()
+            .addOnSuccessListener { document ->
+                if (document.exists()) {
+                    val name = document.getString("name") ?: "Unknown"
+                    val surname = document.getString("surname") ?: ""
+                    uploadedBy = "$name $surname"
+                } else {
+                    firestore.collectionGroup("relatives")
+                        .whereEqualTo("email", FirebaseAuth.getInstance().currentUser?.email)
+                        .get()
+                        .addOnSuccessListener { relativeDocs ->
+                            if (!relativeDocs.isEmpty) {
+                                val relative = relativeDocs.documents[0]
+                                uploadedBy = relative.getString("fullName") ?: "Unknown Relative"
+                            }
+                        }
                 }
             }
+            .addOnFailureListener { e ->
+                Toast.makeText(requireContext(), "Error fetching user info: ${e.message}", Toast.LENGTH_LONG).show()
+            }
+    }
+
+    /**
+     * Firestore'a Metin Anısını Kaydet
+     */
+    private fun saveTextMemoryToFirestore(textContent: String) {
+        val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return
+        val memoryId = UUID.randomUUID().toString()
+
+        val memoryData = mapOf(
+            "type" to "text",
+            "text" to textContent,
+            "uploadedBy" to uploadedBy,
+            "description" to textContent,
+            "timestamp" to com.google.firebase.Timestamp.now()
+        )
+
+        firestore.collection("users").document(userId)
+            .collection("memories").document(memoryId)
+            .set(memoryData)
+            .addOnSuccessListener {
+                Toast.makeText(requireContext(), "Text memory successfully uploaded!", Toast.LENGTH_LONG).show()
+                navigateToHomeFragment()
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(requireContext(), "Firestore Error: ${e.message}", Toast.LENGTH_LONG).show()
+            }
+    }
+
+    /**
+     * HomeFragment'a Yönlendirme
+     */
+    private fun navigateToHomeFragment() {
+        val homeFragment = HomeFragment()
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.frame_layout, homeFragment)
+            .addToBackStack(null)
+            .commit()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

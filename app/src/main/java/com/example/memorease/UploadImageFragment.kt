@@ -81,13 +81,10 @@ class UploadImageFragment : Fragment() {
         firestore.collection("users").document(userId).get()
             .addOnSuccessListener { document ->
                 if (document.exists()) {
-                    // Kullanıcı kendisi mi yoksa bir relative mi?
                     val name = document.getString("name") ?: "Unknown"
                     val surname = document.getString("surname") ?: ""
-                    uploadedBy = "$name $surname" // Hasta ismi
-
+                    uploadedBy = "$name $surname"
                 } else {
-                    // Eğer kullanıcı bir relative ise
                     firestore.collectionGroup("relatives")
                         .whereEqualTo("email", FirebaseAuth.getInstance().currentUser?.email)
                         .get()
@@ -151,7 +148,7 @@ class UploadImageFragment : Fragment() {
     }
 
     private fun uploadImageToCloudinary(imageUri: Uri, comment: String) {
-        CloudinaryService.uploadImage(imageUri, "memories", onSuccess = { imageUrl ->
+        CloudinaryService.uploadFile(imageUri, "memories", "image", onSuccess = { imageUrl ->
             saveMemoryToFirestore(imageUrl, comment)
         }, onError = { error ->
             Toast.makeText(requireContext(), "Cloudinary Error: $error", Toast.LENGTH_LONG).show()
@@ -165,7 +162,7 @@ class UploadImageFragment : Fragment() {
         val memoryData = mapOf(
             "type" to "image",
             "url" to imageUrl,
-            "uploadedBy" to uploadedBy, // Dinamik isim atanıyor
+            "uploadedBy" to uploadedBy,
             "description" to comment,
             "timestamp" to com.google.firebase.Timestamp.now()
         )
@@ -175,7 +172,6 @@ class UploadImageFragment : Fragment() {
             .set(memoryData)
             .addOnSuccessListener {
                 Toast.makeText(requireContext(), "Memory successfully uploaded!", Toast.LENGTH_LONG).show()
-                // Kullanıcıyı HomeFragment'a yönlendir
                 navigateToHomeFragment()
             }
             .addOnFailureListener { e ->
@@ -183,14 +179,11 @@ class UploadImageFragment : Fragment() {
             }
     }
 
-    /**
-     * HomeFragment'a yönlendirme fonksiyonu
-     */
     private fun navigateToHomeFragment() {
         val homeFragment = HomeFragment()
         parentFragmentManager.beginTransaction()
-            .replace(R.id.frame_layout, homeFragment) // Ana container id'sini kullan
-            .addToBackStack(null) // Geri butonunda doğru çalışması için backstack ekle
+            .replace(R.id.frame_layout, homeFragment)
+            .addToBackStack(null)
             .commit()
     }
 

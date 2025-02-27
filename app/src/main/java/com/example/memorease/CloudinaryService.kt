@@ -18,19 +18,18 @@ object CloudinaryService {
         MediaManager.init(context, config)
     }
 
-    fun getCloudinary(): MediaManager? {
-        return MediaManager.get()
-    }
-
-    // "folderName" parametresi eklendi
-    fun uploadImage(
-        imageUri: Uri,
+    fun uploadFile(
+        fileUri: Uri,
         folderName: String,
+        fileType: String, // "image", "video" (audio dosyaları için de video kullanıyoruz)
         onSuccess: (String) -> Unit,
         onError: (String) -> Unit
     ) {
-        val requestId = MediaManager.get().upload(imageUri)
-            .option("folder", "memorease/$folderName") // Klasör dinamik olarak belirleniyor
+        val resourceType = if (fileType == "image") "image" else "video"
+
+        val requestId = MediaManager.get().upload(fileUri)
+            .option("folder", "memorease/$folderName")
+            .option("resource_type", resourceType) // "video" olarak ayarladık
             .callback(object : UploadCallback {
                 override fun onStart(requestId: String?) {
                     Log.d("Cloudinary", "Upload started")

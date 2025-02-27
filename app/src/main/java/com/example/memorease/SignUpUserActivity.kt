@@ -3,13 +3,16 @@ package com.example.memorease
 import android.Manifest
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.cloudinary.android.MediaManager
@@ -65,11 +68,21 @@ class SignUpUserActivity : AppCompatActivity() {
     }
 
     private fun requestGalleryPermission() {
-        ActivityCompat.requestPermissions(
-            this,
-            arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
-            GALLERY_PERMISSION_CODE
-        )
+        val permission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            Manifest.permission.READ_MEDIA_IMAGES
+        } else {
+            Manifest.permission.READ_EXTERNAL_STORAGE
+        }
+
+        if (ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED) {
+            openGallery()
+        } else {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(permission),
+                GALLERY_PERMISSION_CODE
+            )
+        }
     }
 
     private val selectImageLauncher =
@@ -77,49 +90,28 @@ class SignUpUserActivity : AppCompatActivity() {
             if (result.resultCode == Activity.RESULT_OK) {
                 selectedImageUri = result.data?.data
                 selectedImageUri?.let { uri ->
-                    Glide.with(this)
-                        .load(uri)
-                        .placeholder(R.drawable.addprofilephoto)
-                        .transform(CircleCrop())
-                        .into(binding.imageView2)
+                    val mimeType = contentResolver.getType(uri)
+                    if (mimeType?.startsWith("image") == true) {
+                        Glide.with(this)
+                            .load(uri)
+                            .placeholder(R.drawable.addprofilephoto)
+                            .transform(CircleCrop())
+                            .into(binding.imageView2)
+                    } else {
+                        Toast.makeText(this, "Please select a valid image file.", Toast.LENGTH_LONG).show()
+                    }
                 }
             }
         }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == GALLERY_PERMISSION_CODE) {
-            openGallery()
-        }
-    }
 
     private fun openGallery() {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         selectImageLauncher.launch(intent)
     }
 
-/*    private fun uploadImageToCloudinary(imageUri: Uri?) {
-        imageUri?.let { uri ->
-            CloudinaryService.uploadImage(uri, onSuccess = { imageUrl ->
-                Toast.makeText(this, "Photo uploaded successfully!", Toast.LENGTH_LONG).show()
-                val name = binding.nameInput.text.toString().trim()
-                val surname = binding.surnameInput.text.toString().trim()
-                val email = binding.emailInput.text.toString().trim()
-                val password = binding.passwordInput.text.toString().trim()
-                registerUserWithFirebaseAuth(name, surname, email, password, imageUrl)
-            }, onError = { error ->
-                Toast.makeText(this, "Cloudinary Installation Error: $error", Toast.LENGTH_LONG).show()
-            })
-        }
-    }*/
-
     private fun uploadImageToCloudinary(imageUri: Uri?) {
         imageUri?.let { uri ->
-            CloudinaryService.uploadImage(uri, "profile_photos", onSuccess = { imageUrl ->
+            CloudinaryService.uploadFile(uri, "profile_photos", "image", onSuccess = { imageUrl ->
                 Toast.makeText(this, "Photo uploaded successfully!", Toast.LENGTH_LONG).show()
                 val name = binding.nameInput.text.toString().trim()
                 val surname = binding.surnameInput.text.toString().trim()
@@ -127,10 +119,11 @@ class SignUpUserActivity : AppCompatActivity() {
                 val password = binding.passwordInput.text.toString().trim()
                 registerUserWithFirebaseAuth(name, surname, email, password, imageUrl)
             }, onError = { error ->
-                Toast.makeText(this, "Cloudinary Installation Error: $error", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Cloudinary Upload Error: $error", Toast.LENGTH_LONG).show()
             })
         }
     }
+
 
 
     private fun registerUserWithFirebaseAuth(
