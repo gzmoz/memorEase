@@ -34,13 +34,13 @@ class UploadVoiceFragment : Fragment() {
     ): View? {
         _binding = FragmentUploadVoiceBinding.inflate(inflater, container, false)
 
-        // Cloudinary Servisini Başlat
+        // Cloudinary Servisini Başlat
         CloudinaryService.init(requireContext())
 
-        // Kullanıcı Bilgilerini Yükle
+        // Kullanıcı Bilgilerini Yükle
         fetchUploaderName()
 
-        // Başlangıçta buton "Add Voice" olarak ayarla
+        // Başlangıçta buton "Add Voice" olarak ayarla
         binding.playVoiceButton.text = "Add Voice"
 
         binding.playVoiceButton.setOnClickListener {
@@ -71,7 +71,7 @@ class UploadVoiceFragment : Fragment() {
     }
 
     /**
-     * Ses Dosyası Seçimi
+     * Ses Dosyası Seçimi
      */
     private val selectVoiceLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -86,7 +86,7 @@ class UploadVoiceFragment : Fragment() {
         }
 
     /**
-     * Telefon Galerisinden Ses Dosyası Açma
+     * Telefon Galerisinden Ses Dosyası Açma
      */
     private fun openAudioPicker() {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Audio.Media.EXTERNAL_CONTENT_URI)
@@ -130,7 +130,7 @@ class UploadVoiceFragment : Fragment() {
     }
 
     /**
-     * Ses Dosyasını Cloudinary'e Yükle
+     * Ses Dosyasını Cloudinary'e Yükle
      */
     private fun uploadVoiceToCloudinary(audioUri: Uri, comment: String) {
         try {
@@ -196,12 +196,12 @@ class UploadVoiceFragment : Fragment() {
     }
 
     /**
-     * HomeFragment'a Yönlendirme
+     * HomeFragment'a Yönlendirme
      */
     private fun navigateToHomeFragment() {
-        val homeFragment = HomeFragment()
+        val uploadMemoryFragment = UploadMemoryFragment()
         parentFragmentManager.beginTransaction()
-            .replace(R.id.frame_layout, homeFragment)
+            .replace(R.id.frame_layout, uploadMemoryFragment)
             .addToBackStack(null)
             .commit()
     }
@@ -209,6 +209,6 @@ class UploadVoiceFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         mediaPlayer?.release()
-        _binding = null
-    }
+        _binding=null
+        }
 }

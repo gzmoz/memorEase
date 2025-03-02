@@ -25,7 +25,7 @@ class UploadTextFragment : Fragment() {
     ): View? {
         _binding = FragmentUploadTextBinding.inflate(inflater, container, false)
 
-        // Kullanıcı Bilgilerini Yükle
+        // Kullanıcı Bilgilerini Yükle
         fetchUploaderName()
 
         binding.uploadButton.setOnClickListener {
@@ -99,18 +99,18 @@ class UploadTextFragment : Fragment() {
     }
 
     /**
-     * HomeFragment'a Yönlendirme
+     * HomeFragment'a Yönlendirme
      */
     private fun navigateToHomeFragment() {
-        val homeFragment = HomeFragment()
+        val uploadMemoryFragment = UploadMemoryFragment()
         parentFragmentManager.beginTransaction()
-            .replace(R.id.frame_layout, homeFragment)
+            .replace(R.id.frame_layout, uploadMemoryFragment)
             .addToBackStack(null)
             .commit()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
-    }
+        _binding=null
+        }
 }
