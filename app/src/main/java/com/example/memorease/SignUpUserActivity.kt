@@ -150,12 +150,13 @@ class SignUpUserActivity : AppCompatActivity() {
         email: String,
         profileImageUrl: String
     ) {
-        val userProfile = UserProfile(
-            name = name,
-            surname = surname,
-            email = email,
-            profileImageUrl = profileImageUrl,
-            uuid = userId
+        val userProfile = mapOf(
+            "name" to name,
+            "surname" to surname,
+            "email" to email,
+            "profileImageUrl" to profileImageUrl,
+            "uuid" to userId,
+            "score" to 0 // Kullanıcının başlangıç skoru 0 olarak kaydediliyor
         )
 
         firestore.collection("users").document(userId)
@@ -170,6 +171,7 @@ class SignUpUserActivity : AppCompatActivity() {
                 Toast.makeText(this, "Database error: ${e.message}", Toast.LENGTH_LONG).show()
             }
     }
+
 
     companion object {
         private const val GALLERY_PERMISSION_CODE = 1001

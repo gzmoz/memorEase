@@ -44,9 +44,11 @@ class HomeFragment : Fragment() {
                         val surname = document.getString("surname") ?: ""
                         val profileImageUrl = document.getString("profileImageUrl") ?: ""
                         val uuid = document.getString("uuid") ?: userId // UUID alanı yoksa UID göster
+                        val score = document.getLong("score") ?: 0
 
                         binding.username.text = "$name $surname"
                         binding.uuidDisplay.text = uuid // UUID alanını güncelle
+                        binding.scoreText.text = score.toString()
 
                         Glide.with(this)
                             .load(profileImageUrl)
